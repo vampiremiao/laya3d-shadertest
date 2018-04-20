@@ -63,21 +63,22 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 		public static TILINGOFFSET:number = 15;
 		
 		/**@private */
-		public static shaderDefines:Laya.ShaderDefines = new Laya.ShaderDefines(Laya.BaseMaterial.shaderDefines);
+		public static shaderDefines:Laya.ShaderDefines;
 		
 		/**
 		 * @private
 		 */
-		public static __init__():void {
-			CustomMaterial2.SHADERDEFINE_DIFFUSEMAP = CustomMaterial2.shaderDefines.registerDefine("DIFFUSEMAP");
-			CustomMaterial2.SHADERDEFINE_NORMALMAP = CustomMaterial2.shaderDefines.registerDefine("NORMALMAP");
-			CustomMaterial2.SHADERDEFINE_SPECULARMAP = CustomMaterial2.shaderDefines.registerDefine("SPECULARMAP");
-			CustomMaterial2.SHADERDEFINE_EMISSIVEMAP = CustomMaterial2.shaderDefines.registerDefine("EMISSIVEMAP");
-			CustomMaterial2.SHADERDEFINE_AMBIENTMAP = CustomMaterial2.shaderDefines.registerDefine("AMBIENTMAP");
-			CustomMaterial2.SHADERDEFINE_REFLECTMAP = CustomMaterial2.shaderDefines.registerDefine("REFLECTMAP");
-			CustomMaterial2.SHADERDEFINE_UVTRANSFORM = CustomMaterial2.shaderDefines.registerDefine("UVTRANSFORM");
-			CustomMaterial2.SHADERDEFINE_TILINGOFFSET = CustomMaterial2.shaderDefines.registerDefine("TILINGOFFSET");
-			CustomMaterial2.SHADERDEFINE_ADDTIVEFOG = CustomMaterial2.shaderDefines.registerDefine("ADDTIVEFOG");
+		public static __init__(shaderCompile:Laya.ShaderCompile3D):void {
+			this.shaderDefines = new Laya.ShaderDefines(Laya.BaseMaterial.shaderDefines);
+			CustomMaterial2.SHADERDEFINE_DIFFUSEMAP = shaderCompile.registerMaterialDefine("DIFFUSEMAP");
+			CustomMaterial2.SHADERDEFINE_NORMALMAP = shaderCompile.registerMaterialDefine("NORMALMAP");
+			CustomMaterial2.SHADERDEFINE_SPECULARMAP = shaderCompile.registerMaterialDefine("SPECULARMAP");
+			CustomMaterial2.SHADERDEFINE_EMISSIVEMAP = shaderCompile.registerMaterialDefine("EMISSIVEMAP");
+			CustomMaterial2.SHADERDEFINE_AMBIENTMAP = shaderCompile.registerMaterialDefine("AMBIENTMAP");
+			CustomMaterial2.SHADERDEFINE_REFLECTMAP = shaderCompile.registerMaterialDefine("REFLECTMAP");
+			CustomMaterial2.SHADERDEFINE_UVTRANSFORM = shaderCompile.registerMaterialDefine("UVTRANSFORM");
+			CustomMaterial2.SHADERDEFINE_TILINGOFFSET = shaderCompile.registerMaterialDefine("TILINGOFFSET");
+			CustomMaterial2.SHADERDEFINE_ADDTIVEFOG = shaderCompile.registerMaterialDefine("ADDTIVEFOG");
 		}
 
         constructor() {

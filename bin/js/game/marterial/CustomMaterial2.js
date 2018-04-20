@@ -31,16 +31,17 @@ var CustomMaterial2 = (function (_super) {
     /**
      * @private
      */
-    CustomMaterial2.__init__ = function () {
-        CustomMaterial2.SHADERDEFINE_DIFFUSEMAP = CustomMaterial2.shaderDefines.registerDefine("DIFFUSEMAP");
-        CustomMaterial2.SHADERDEFINE_NORMALMAP = CustomMaterial2.shaderDefines.registerDefine("NORMALMAP");
-        CustomMaterial2.SHADERDEFINE_SPECULARMAP = CustomMaterial2.shaderDefines.registerDefine("SPECULARMAP");
-        CustomMaterial2.SHADERDEFINE_EMISSIVEMAP = CustomMaterial2.shaderDefines.registerDefine("EMISSIVEMAP");
-        CustomMaterial2.SHADERDEFINE_AMBIENTMAP = CustomMaterial2.shaderDefines.registerDefine("AMBIENTMAP");
-        CustomMaterial2.SHADERDEFINE_REFLECTMAP = CustomMaterial2.shaderDefines.registerDefine("REFLECTMAP");
-        CustomMaterial2.SHADERDEFINE_UVTRANSFORM = CustomMaterial2.shaderDefines.registerDefine("UVTRANSFORM");
-        CustomMaterial2.SHADERDEFINE_TILINGOFFSET = CustomMaterial2.shaderDefines.registerDefine("TILINGOFFSET");
-        CustomMaterial2.SHADERDEFINE_ADDTIVEFOG = CustomMaterial2.shaderDefines.registerDefine("ADDTIVEFOG");
+    CustomMaterial2.__init__ = function (shaderCompile) {
+        this.shaderDefines = new Laya.ShaderDefines(Laya.BaseMaterial.shaderDefines);
+        CustomMaterial2.SHADERDEFINE_DIFFUSEMAP = shaderCompile.registerMaterialDefine("DIFFUSEMAP");
+        CustomMaterial2.SHADERDEFINE_NORMALMAP = shaderCompile.registerMaterialDefine("NORMALMAP");
+        CustomMaterial2.SHADERDEFINE_SPECULARMAP = shaderCompile.registerMaterialDefine("SPECULARMAP");
+        CustomMaterial2.SHADERDEFINE_EMISSIVEMAP = shaderCompile.registerMaterialDefine("EMISSIVEMAP");
+        CustomMaterial2.SHADERDEFINE_AMBIENTMAP = shaderCompile.registerMaterialDefine("AMBIENTMAP");
+        CustomMaterial2.SHADERDEFINE_REFLECTMAP = shaderCompile.registerMaterialDefine("REFLECTMAP");
+        CustomMaterial2.SHADERDEFINE_UVTRANSFORM = shaderCompile.registerMaterialDefine("UVTRANSFORM");
+        CustomMaterial2.SHADERDEFINE_TILINGOFFSET = shaderCompile.registerMaterialDefine("TILINGOFFSET");
+        CustomMaterial2.SHADERDEFINE_ADDTIVEFOG = shaderCompile.registerMaterialDefine("ADDTIVEFOG");
     };
     Object.defineProperty(CustomMaterial2.prototype, "renderMode", {
         /**
@@ -459,8 +460,6 @@ var CustomMaterial2 = (function (_super) {
     CustomMaterial2.UVMATRIX = 13;
     CustomMaterial2.UVAGE = 14;
     CustomMaterial2.TILINGOFFSET = 15;
-    /**@private */
-    CustomMaterial2.shaderDefines = new Laya.ShaderDefines(Laya.BaseMaterial.shaderDefines);
     return CustomMaterial2;
 }(Laya.BaseMaterial));
 //# sourceMappingURL=CustomMaterial2.js.map
