@@ -94,7 +94,7 @@ module game {
 
 			let customMaterial2 = this.customMaterial2 = new CustomMaterial2();
             customMaterial2.diffuseTexture = Laya.Texture2D.load("res/fbx/LayaScene_testLaya/Assets/Toon_RTS_demo/models/Materials/DemoTexture.png");
-			customMaterial2.flashTexture = Laya.Texture2D.load("res/fbx/LayaScene_testLaya/Assets/Toon_RTS_demo/models/Materials/FlashTexture2.png");
+			customMaterial2.flashTexture = Laya.Texture2D.load("res/fbx/LayaScene_testLaya/Assets/Toon_RTS_demo/models/Materials/FlashTexture4.jpg");
 			// customMaterial1.flashTexture = Laya.Texture2D.load("res/fbx/LayaScene_testLaya/Assets/Toon_RTS_demo/models/Materials/FlashTexture.png");
 
             // customMaterial1.marginalColor = new Laya.Vector3(1, 0.7, 1);
@@ -103,7 +103,7 @@ module game {
 			// baseMaterials.push(this.customMaterial1);
 			// (role3D.getChildAt(0) as Laya.SkinnedMeshSprite3D).skinnedMeshRender.sharedMaterial = Laya.StandardMaterial.load("res/fbx/LayaScene_testLaya/Assets/Toon_RTS_demo/models/Materials/DemoTexture.lmat");
 			// (role3D.getChildAt(0) as Laya.SkinnedMeshSprite3D).skinnedMeshRender.sharedMaterial = Laya.StandardMaterial.defaultMaterial;
-			(role3D.getChildAt(0) as Laya.SkinnedMeshSprite3D).skinnedMeshRender.sharedMaterial = customMaterial1;
+			(role3D.getChildAt(0) as Laya.SkinnedMeshSprite3D).skinnedMeshRender.sharedMaterial = customMaterial2;
 			for (var index = 0; index < 100; index++) {
 				let role3d2:Laya.Sprite3D = Laya.Sprite3D.instantiate(role3D);
 				this.scene.addChild(role3d2);

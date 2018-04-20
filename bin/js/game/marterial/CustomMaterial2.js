@@ -26,7 +26,7 @@ var CustomMaterial2 = (function (_super) {
         _this._setNumber(CustomMaterial2.ALPHATESTVALUE, 0.5);
         _this._setColor(CustomMaterial2.TILINGOFFSET, new Laya.Vector4(1.0, 1.0, 0.0, 0.0));
         _this.renderMode = CustomMaterial2.RENDERMODE_OPAQUE;
-        _this._setBuffer(CustomMaterial.FlashFactor, new Float32Array([0, 1, 0.5, 0.5]));
+        _this._setColor(CustomMaterial2.FlashFactor, new Laya.Vector4(0, 1, 0.5, 1));
         return _this;
     }
     /**
@@ -58,6 +58,150 @@ var CustomMaterial2 = (function (_super) {
                     this.blend = CustomMaterial2.BLEND_DISABLE;
                     this.alphaTest = false;
                     this._removeShaderDefine(CustomMaterial2.SHADERDEFINE_ADDTIVEFOG);
+                    break;
+                case CustomMaterial2.RENDERMODE_OPAQUEDOUBLEFACE:
+                    this.renderQueue = Laya.RenderQueue.OPAQUE;
+                    this.depthWrite = true;
+                    this.cull = CustomMaterial2.CULL_NONE;
+                    this.blend = CustomMaterial2.BLEND_DISABLE;
+                    this.alphaTest = false;
+                    this._removeShaderDefine(CustomMaterial2.SHADERDEFINE_ADDTIVEFOG);
+                    break;
+                case CustomMaterial2.RENDERMODE_CUTOUT:
+                    this.depthWrite = true;
+                    this.cull = CustomMaterial2.CULL_BACK;
+                    this.blend = CustomMaterial2.BLEND_DISABLE;
+                    this.renderQueue = Laya.RenderQueue.OPAQUE;
+                    this.alphaTest = true;
+                    this._removeShaderDefine(CustomMaterial2.SHADERDEFINE_ADDTIVEFOG);
+                    break;
+                case CustomMaterial2.RENDERMODE_CUTOUTDOUBLEFACE:
+                    this.renderQueue = Laya.RenderQueue.OPAQUE;
+                    this.depthWrite = true;
+                    this.cull = CustomMaterial2.CULL_NONE;
+                    this.blend = CustomMaterial2.BLEND_DISABLE;
+                    this.alphaTest = true;
+                    this._removeShaderDefine(CustomMaterial2.SHADERDEFINE_ADDTIVEFOG);
+                    break;
+                case CustomMaterial2.RENDERMODE_TRANSPARENT:
+                    this.renderQueue = Laya.RenderQueue.TRANSPARENT;
+                    this.depthWrite = true;
+                    this.cull = CustomMaterial2.CULL_BACK;
+                    this.blend = CustomMaterial2.BLEND_ENABLE_ALL;
+                    this.srcBlend = CustomMaterial2.BLENDPARAM_SRC_ALPHA;
+                    this.dstBlend = CustomMaterial2.BLENDPARAM_ONE_MINUS_SRC_ALPHA;
+                    this.alphaTest = false;
+                    this._removeShaderDefine(CustomMaterial2.SHADERDEFINE_ADDTIVEFOG);
+                    break;
+                case CustomMaterial2.RENDERMODE_TRANSPARENTDOUBLEFACE:
+                    this.renderQueue = Laya.RenderQueue.TRANSPARENT;
+                    this.depthWrite = true;
+                    this.cull = CustomMaterial2.CULL_NONE;
+                    this.blend = CustomMaterial2.BLEND_ENABLE_ALL;
+                    this.srcBlend = CustomMaterial2.BLENDPARAM_SRC_ALPHA;
+                    this.dstBlend = CustomMaterial2.BLENDPARAM_ONE_MINUS_SRC_ALPHA;
+                    this.alphaTest = false;
+                    this._removeShaderDefine(CustomMaterial2.SHADERDEFINE_ADDTIVEFOG);
+                    break;
+                case CustomMaterial2.RENDERMODE_ADDTIVE:
+                    this.renderQueue = Laya.RenderQueue.TRANSPARENT;
+                    this.depthWrite = true;
+                    this.cull = CustomMaterial2.CULL_BACK;
+                    this.blend = CustomMaterial2.BLEND_ENABLE_ALL;
+                    this.srcBlend = CustomMaterial2.BLENDPARAM_SRC_ALPHA;
+                    this.dstBlend = CustomMaterial2.BLENDPARAM_ONE;
+                    this.alphaTest = false;
+                    this._addShaderDefine(CustomMaterial2.SHADERDEFINE_ADDTIVEFOG);
+                    break;
+                case CustomMaterial2.RENDERMODE_ADDTIVEDOUBLEFACE:
+                    this.renderQueue = Laya.RenderQueue.TRANSPARENT;
+                    this.depthWrite = true;
+                    this.cull = CustomMaterial2.CULL_NONE;
+                    this.blend = CustomMaterial2.BLEND_ENABLE_ALL;
+                    this.srcBlend = CustomMaterial2.BLENDPARAM_SRC_ALPHA;
+                    this.dstBlend = CustomMaterial2.BLENDPARAM_ONE;
+                    this.alphaTest = false;
+                    this._addShaderDefine(CustomMaterial2.SHADERDEFINE_ADDTIVEFOG);
+                    break;
+                case CustomMaterial2.RENDERMODE_DEPTHREAD_TRANSPARENT:
+                    this.renderQueue = Laya.RenderQueue.TRANSPARENT;
+                    this.depthWrite = false;
+                    this.cull = CustomMaterial2.CULL_BACK;
+                    this.blend = CustomMaterial2.BLEND_ENABLE_ALL;
+                    this.srcBlend = CustomMaterial2.BLENDPARAM_SRC_ALPHA;
+                    this.dstBlend = CustomMaterial2.BLENDPARAM_ONE_MINUS_SRC_ALPHA;
+                    this.alphaTest = false;
+                    this._removeShaderDefine(CustomMaterial2.SHADERDEFINE_ADDTIVEFOG);
+                    break;
+                case CustomMaterial2.RENDERMODE_DEPTHREAD_TRANSPARENTDOUBLEFACE:
+                    this.renderQueue = Laya.RenderQueue.TRANSPARENT;
+                    this.depthWrite = false;
+                    this.cull = CustomMaterial2.CULL_NONE;
+                    this.blend = CustomMaterial2.BLEND_ENABLE_ALL;
+                    this.srcBlend = CustomMaterial2.BLENDPARAM_SRC_ALPHA;
+                    this.dstBlend = CustomMaterial2.BLENDPARAM_ONE_MINUS_SRC_ALPHA;
+                    this.alphaTest = false;
+                    this._removeShaderDefine(CustomMaterial2.SHADERDEFINE_ADDTIVEFOG);
+                    break;
+                case CustomMaterial2.RENDERMODE_DEPTHREAD_ADDTIVE:
+                    this.renderQueue = Laya.RenderQueue.TRANSPARENT;
+                    this.depthWrite = false;
+                    this.cull = CustomMaterial2.CULL_BACK;
+                    this.blend = CustomMaterial2.BLEND_ENABLE_ALL;
+                    this.srcBlend = CustomMaterial2.BLENDPARAM_SRC_ALPHA;
+                    this.dstBlend = CustomMaterial2.BLENDPARAM_ONE;
+                    this.alphaTest = false;
+                    this._addShaderDefine(CustomMaterial2.SHADERDEFINE_ADDTIVEFOG);
+                    break;
+                case CustomMaterial2.RENDERMODE_DEPTHREAD_ADDTIVEDOUBLEFACE:
+                    this.renderQueue = Laya.RenderQueue.TRANSPARENT;
+                    this.depthWrite = false;
+                    this.cull = CustomMaterial2.CULL_NONE;
+                    this.blend = CustomMaterial2.BLEND_ENABLE_ALL;
+                    this.srcBlend = CustomMaterial2.BLENDPARAM_SRC_ALPHA;
+                    this.dstBlend = CustomMaterial2.BLENDPARAM_ONE;
+                    this.alphaTest = false;
+                    this._addShaderDefine(CustomMaterial2.SHADERDEFINE_ADDTIVEFOG);
+                    break;
+                case CustomMaterial2.RENDERMODE_NONDEPTH_TRANSPARENT:
+                    this.renderQueue = Laya.RenderQueue.TRANSPARENT;
+                    this.depthTest = CustomMaterial2.DEPTHTEST_LESS;
+                    this.cull = CustomMaterial2.CULL_BACK;
+                    this.blend = CustomMaterial2.BLEND_ENABLE_ALL;
+                    this.srcBlend = CustomMaterial2.BLENDPARAM_SRC_ALPHA;
+                    this.dstBlend = CustomMaterial2.BLENDPARAM_ONE_MINUS_SRC_ALPHA;
+                    this.alphaTest = false;
+                    this._removeShaderDefine(CustomMaterial2.SHADERDEFINE_ADDTIVEFOG);
+                    break;
+                case CustomMaterial2.RENDERMODE_NONDEPTH_TRANSPARENTDOUBLEFACE:
+                    this.renderQueue = Laya.RenderQueue.TRANSPARENT;
+                    this.depthTest = CustomMaterial2.DEPTHTEST_LESS;
+                    this.cull = CustomMaterial2.CULL_NONE;
+                    this.blend = CustomMaterial2.BLEND_ENABLE_ALL;
+                    this.srcBlend = CustomMaterial2.BLENDPARAM_SRC_ALPHA;
+                    this.dstBlend = CustomMaterial2.BLENDPARAM_ONE_MINUS_SRC_ALPHA;
+                    this.alphaTest = false;
+                    this._removeShaderDefine(CustomMaterial2.SHADERDEFINE_ADDTIVEFOG);
+                    break;
+                case CustomMaterial2.RENDERMODE_NONDEPTH_ADDTIVE:
+                    this.renderQueue = Laya.RenderQueue.TRANSPARENT;
+                    this.depthTest = CustomMaterial2.DEPTHTEST_LESS;
+                    this.cull = CustomMaterial2.CULL_BACK;
+                    this.blend = CustomMaterial2.BLEND_ENABLE_ALL;
+                    this.srcBlend = CustomMaterial2.BLENDPARAM_SRC_ALPHA;
+                    this.dstBlend = CustomMaterial2.BLENDPARAM_ONE;
+                    this.alphaTest = false;
+                    this._addShaderDefine(CustomMaterial2.SHADERDEFINE_ADDTIVEFOG);
+                    break;
+                case CustomMaterial2.RENDERMODE_NONDEPTH_ADDTIVEDOUBLEFACE:
+                    this.renderQueue = Laya.RenderQueue.TRANSPARENT;
+                    this.depthTest = CustomMaterial2.DEPTHTEST_LESS;
+                    this.cull = CustomMaterial2.CULL_NONE;
+                    this.blend = CustomMaterial2.BLEND_ENABLE_ALL;
+                    this.srcBlend = CustomMaterial2.BLENDPARAM_SRC_ALPHA;
+                    this.dstBlend = CustomMaterial2.BLENDPARAM_ONE;
+                    this.alphaTest = false;
+                    this._addShaderDefine(CustomMaterial2.SHADERDEFINE_ADDTIVEFOG);
                     break;
                 default:
                     throw new Error("Material:renderMode value error.");

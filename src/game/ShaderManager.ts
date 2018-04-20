@@ -456,11 +456,8 @@ class ShaderManager{
             "{\n" + 
             "#if defined(DIFFUSEMAP)&&!defined(COLOR)\n" + 
             "	gl_FragColor=texture2D(u_DiffuseTexture, v_Texcoord0);\n" + 
-            "vec2 flashuv = v_Texcoord0.xy * u_FlashFactor.zw + u_FlashFactor.xy * u_CurTime * 0.002;\n" +
-            "vec4 flash=texture2D(u_flaTexture,flashuv);\n" +
-            "flash.rgb=flash.rgb * flash.a;\n" +
-            "gl_FragColor=gl_FragColor + flash;\n" + 
             "#endif \n" + 
+           
             "  \n" + 
             "#if defined(COLOR)&&!defined(DIFFUSEMAP)\n" + 
             "	gl_FragColor=v_Color;\n" + 
@@ -600,7 +597,11 @@ class ShaderManager{
             "	float lerpFact = (-v_PositionWorld.y-u_FogStart)/u_FogRange;\n" + 
             "	gl_FragColor.rgb=mix(gl_FragColor.rgb,u_FogColor,lerpFact);\n" + 
             "#endif\n" + 
-            
+             "vec2 flashuv = v_Texcoord0.xy * u_FlashFactor.zw + u_FlashFactor.xy * u_CurTime * 0.002;\n" +
+            "vec4 flash=texture2D(u_flaTexture,flashuv);\n" +
+            "flash.rgb=flash.rgb * flash.a;\n" +
+            // "flash.r=flash.r * u_CurTime * 0.02;\n" +
+            "gl_FragColor=gl_FragColor + flash ;\n" + 
             "}\n" + 
             "\n" + 
             "void main()\n" + 
