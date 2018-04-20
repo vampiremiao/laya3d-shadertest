@@ -1,0 +1,1 @@
+{"version":3,"file":"GameObserverManager.js","sourceRoot":"","sources":["../../../src/ob/GameObserverManager.ts"],"names":[],"mappings":"AAAA;IAEC;IACA,CAAC;IAEM,2CAAa,GAApB;QAEC,IAAI,OAAO,GAAa,IAAI,YAAY,EAAE,CAAC;QAC3C,WAAW,CAAC,QAAQ,CAAC,SAAS,CAAC,WAAW,CAAC,OAAO,CAAC,CAAC;IAErD,CAAC;IATsB,4BAAQ,GAAwB,IAAI,mBAAmB,EAAE,CAAC;IAUlF,0BAAC;CAAA,AAXD,IAWC"}

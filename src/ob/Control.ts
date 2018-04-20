@@ -1,0 +1,4 @@
+class Control {
+	public constructor() {
+	}
+}
