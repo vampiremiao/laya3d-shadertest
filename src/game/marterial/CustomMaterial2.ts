@@ -1,7 +1,7 @@
 /*
 * name;
 */
-import {  } from "Laya";
+
 class CustomMaterial2 extends Laya.BaseMaterial{
 		/**渲染状态_不透明。*/
 		public static RENDERMODE_OPAQUE:number = 1;

@@ -16,6 +16,7 @@ var Game = (function () {
         configurable: true
     });
     Game.prototype.init = function () {
+        ShaderManager.Instance.initShaders();
         this.baseLayer.initContainer(Laya.stage);
         UIManager.Instance.init();
         GameStateManager.Instance.init();
