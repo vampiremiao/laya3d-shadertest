@@ -17,7 +17,7 @@ class Game{
 	}
 
     public init():void{
-        ShaderManager.Instance.initShaders();
+       
         this.baseLayer.initContainer(Laya.stage);
         UIManager.Instance.init();
         GameStateManager.Instance.init();

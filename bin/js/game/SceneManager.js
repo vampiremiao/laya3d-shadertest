@@ -16,6 +16,7 @@ var game;
         SceneManager.prototype.updateTime = function () {
             if (this.customMaterial1) {
                 this.customMaterial1.curTime = Laya.timer.currFrame;
+                this.customMaterial2.curTime = Laya.timer.currFrame;
             }
         };
         SceneManager.prototype.initDirectionLight = function () {
@@ -56,6 +57,7 @@ var game;
             this.ani.play("WK_heavy_infantry_04_charge");
         };
         SceneManager.prototype.onModelOk = function () {
+            ShaderManager.Instance.initShaders();
             //添加蒙皮动画角色模型
             var role3D = Laya.loader.getRes("res/fbx/LayaScene_testLaya/testLaya.lh").getChildAt(0);
             this.role3d = role3D;
@@ -69,9 +71,10 @@ var game;
             this.customMaterial1 = new CustomMaterial();
             var customMaterial1 = this.customMaterial1;
             customMaterial1.diffuseTexture = Laya.Texture2D.load("res/fbx/LayaScene_testLaya/Assets/Toon_RTS_demo/models/Materials/DemoTexture.png");
-            customMaterial1.flashTexture = Laya.Texture2D.load("res/fbx/LayaScene_testLaya/Assets/Toon_RTS_demo/models/Materials/FlashTexture.png");
-            var customMaterial2 = new CustomMaterial2();
+            customMaterial1.flashTexture = Laya.Texture2D.load("res/fbx/LayaScene_testLaya/Assets/Toon_RTS_demo/models/Materials/FlashTexture2.png");
+            var customMaterial2 = this.customMaterial2 = new CustomMaterial2();
             customMaterial2.diffuseTexture = Laya.Texture2D.load("res/fbx/LayaScene_testLaya/Assets/Toon_RTS_demo/models/Materials/DemoTexture.png");
+            customMaterial2.flashTexture = Laya.Texture2D.load("res/fbx/LayaScene_testLaya/Assets/Toon_RTS_demo/models/Materials/FlashTexture2.png");
             // customMaterial1.flashTexture = Laya.Texture2D.load("res/fbx/LayaScene_testLaya/Assets/Toon_RTS_demo/models/Materials/FlashTexture.png");
             // customMaterial1.marginalColor = new Laya.Vector3(1, 0.7, 1);
             role3D.getChildAt(0).skinnedMeshRender.castShadow = true;
@@ -79,7 +82,7 @@ var game;
             // baseMaterials.push(this.customMaterial1);
             // (role3D.getChildAt(0) as Laya.SkinnedMeshSprite3D).skinnedMeshRender.sharedMaterial = Laya.StandardMaterial.load("res/fbx/LayaScene_testLaya/Assets/Toon_RTS_demo/models/Materials/DemoTexture.lmat");
             // (role3D.getChildAt(0) as Laya.SkinnedMeshSprite3D).skinnedMeshRender.sharedMaterial = Laya.StandardMaterial.defaultMaterial;
-            role3D.getChildAt(0).skinnedMeshRender.sharedMaterial = customMaterial2;
+            role3D.getChildAt(0).skinnedMeshRender.sharedMaterial = customMaterial1;
             for (var index = 0; index < 100; index++) {
                 var role3d2 = Laya.Sprite3D.instantiate(role3D);
                 this.scene.addChild(role3d2);

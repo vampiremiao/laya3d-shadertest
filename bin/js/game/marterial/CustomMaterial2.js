@@ -17,7 +17,7 @@ var CustomMaterial2 = (function (_super) {
         var _this = _super.call(this) || this;
         /** @private */
         _this._transformUV = null;
-        _this.setShaderName("SIMPLE");
+        _this.setShaderName("CustomShader2");
         _this._setColor(CustomMaterial2.MATERIALAMBIENT, new Laya.Vector3(0.6, 0.6, 0.6));
         _this._setColor(CustomMaterial2.MATERIALDIFFUSE, new Laya.Vector3(1.0, 1.0, 1.0));
         _this._setColor(CustomMaterial2.MATERIALSPECULAR, new Laya.Vector4(1.0, 1.0, 1.0, 8.0));
@@ -26,12 +26,13 @@ var CustomMaterial2 = (function (_super) {
         _this._setNumber(CustomMaterial2.ALPHATESTVALUE, 0.5);
         _this._setColor(CustomMaterial2.TILINGOFFSET, new Laya.Vector4(1.0, 1.0, 0.0, 0.0));
         _this.renderMode = CustomMaterial2.RENDERMODE_OPAQUE;
+        _this._setBuffer(CustomMaterial.FlashFactor, new Float32Array([0, 1, 0.5, 0.5]));
         return _this;
     }
     /**
      * @private
      */
-    CustomMaterial2.__init__ = function (shaderCompile) {
+    CustomMaterial2.init = function (shaderCompile) {
         this.shaderDefines = new Laya.ShaderDefines(Laya.BaseMaterial.shaderDefines);
         CustomMaterial2.SHADERDEFINE_DIFFUSEMAP = shaderCompile.registerMaterialDefine("DIFFUSEMAP");
         CustomMaterial2.SHADERDEFINE_NORMALMAP = shaderCompile.registerMaterialDefine("NORMALMAP");
@@ -62,6 +63,26 @@ var CustomMaterial2 = (function (_super) {
                     throw new Error("Material:renderMode value error.");
             }
             this._conchMaterial && this._conchMaterial.setRenderMode(value); //NATIVE
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CustomMaterial2.prototype, "flashTexture", {
+        get: function () {
+            return this._getTexture(CustomMaterial2.FLASHTEXTURE);
+        },
+        set: function (value) {
+            this._setTexture(CustomMaterial2.FLASHTEXTURE, value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CustomMaterial2.prototype, "curTime", {
+        get: function () {
+            return this._getNumber(CustomMaterial2.CURTIME);
+        },
+        set: function (value) {
+            this._setNumber(CustomMaterial2.CURTIME, value);
         },
         enumerable: true,
         configurable: true
@@ -460,6 +481,9 @@ var CustomMaterial2 = (function (_super) {
     CustomMaterial2.UVMATRIX = 13;
     CustomMaterial2.UVAGE = 14;
     CustomMaterial2.TILINGOFFSET = 15;
+    CustomMaterial2.CURTIME = 16;
+    CustomMaterial2.FLASHTEXTURE = 17;
+    CustomMaterial2.FlashFactor = 18;
     return CustomMaterial2;
 }(Laya.BaseMaterial));
 //# sourceMappingURL=CustomMaterial2.js.map

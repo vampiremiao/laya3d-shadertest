@@ -61,6 +61,9 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 		public static UVMATRIX:number = 13;
 		public static UVAGE:number = 14;
 		public static TILINGOFFSET:number = 15;
+		public static CURTIME:number = 16;
+		public static FLASHTEXTURE:number = 17;
+		public static FlashFactor:number = 18;
 		
 		/**@private */
 		public static shaderDefines:Laya.ShaderDefines;
@@ -68,7 +71,7 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 		/**
 		 * @private
 		 */
-		public static __init__(shaderCompile:Laya.ShaderCompile3D):void {
+		public static init(shaderCompile:Laya.ShaderCompile3D):void {
 			this.shaderDefines = new Laya.ShaderDefines(Laya.BaseMaterial.shaderDefines);
 			CustomMaterial2.SHADERDEFINE_DIFFUSEMAP = shaderCompile.registerMaterialDefine("DIFFUSEMAP");
 			CustomMaterial2.SHADERDEFINE_NORMALMAP = shaderCompile.registerMaterialDefine("NORMALMAP");
@@ -83,7 +86,7 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 
         constructor() {
 			super();
-			this.setShaderName("SIMPLE");
+			this.setShaderName("CustomShader2");
 			this._setColor(CustomMaterial2.MATERIALAMBIENT, new Laya.Vector3(0.6, 0.6, 0.6));
 			this._setColor(CustomMaterial2.MATERIALDIFFUSE, new Laya.Vector3(1.0, 1.0, 1.0));
 			this._setColor(CustomMaterial2.MATERIALSPECULAR, new Laya.Vector4(1.0, 1.0, 1.0, 8.0));
@@ -92,6 +95,7 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 			this._setNumber(CustomMaterial2.ALPHATESTVALUE, 0.5);
 			this._setColor(CustomMaterial2.TILINGOFFSET, new Laya.Vector4(1.0, 1.0, 0.0, 0.0));
 			this.renderMode = CustomMaterial2.RENDERMODE_OPAQUE;
+			this._setBuffer(CustomMaterial.FlashFactor,new Float32Array([0, 1, 0.5, 0.5]));
 		}
 	
 		/** @private */
@@ -101,7 +105,7 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 		 * 设置渲染模式。
 		 * @return 渲染模式。
 		 */
-		public set renderMode(value:number):void {
+		public set renderMode(value:number) {
 			switch (value) {
 			case CustomMaterial2.RENDERMODE_OPAQUE: 
 				this.renderQueue = Laya.RenderQueue.OPAQUE;
@@ -119,6 +123,22 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 			this._conchMaterial && this._conchMaterial.setRenderMode(value);//NATIVE
 		}
 		
+		public set flashTexture(value){
+			this._setTexture(CustomMaterial2.FLASHTEXTURE,value);
+		}
+
+		public get flashTexture():laya.d3.resource.BaseTexture{
+			return this._getTexture(CustomMaterial2.FLASHTEXTURE);
+		}
+
+		public set curTime(value:number){
+			this._setNumber(CustomMaterial2.CURTIME,value);
+		}
+
+		public get curTime():number{
+			return this._getNumber(CustomMaterial2.CURTIME);
+		}
+		
 		/**
 		 * 获取纹理平铺和偏移。
 		 * @return 纹理平铺和偏移。
@@ -131,7 +151,7 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 		 * 获取纹理平铺和偏移。
 		 * @param value 纹理平铺和偏移。
 		 */
-		public set tilingOffset(value:Laya.Vector4):void {
+		public set tilingOffset(value:Laya.Vector4) {
 			if (value) {
 				var valueE:Float32Array = value.elements;
 				if (valueE[0] != 1 || valueE[1] != 1 || valueE[2] != 0 || valueE[3] != 0)
@@ -152,7 +172,7 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 		 * 设置环境光颜色。
 		 * @param value 环境光颜色。
 		 */
-		public set ambientColor(value:Laya.Vector3):void {
+		public set ambientColor(value:Laya.Vector3) {
 			this._setColor(CustomMaterial2.MATERIALAMBIENT, value);
 		}
 		
@@ -164,7 +184,7 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 		 * 设置漫反射光颜色。
 		 * @param value 漫反射光颜色。
 		 */
-		public set diffuseColor(value:Laya.Vector3):void {
+		public set diffuseColor(value:Laya.Vector3) {
 			this._setColor(CustomMaterial2.MATERIALDIFFUSE, value);
 		}
 		
@@ -176,7 +196,7 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 		 * 设置高光颜色。
 		 * @param value 高光颜色。
 		 */
-		public set specularColor(value:Laya.Vector4):void {
+		public set specularColor(value:Laya.Vector4) {
 			this._setColor(CustomMaterial2.MATERIALSPECULAR, value);
 		}
 		
@@ -188,7 +208,7 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 		 * 设置反射颜色。
 		 * @param value 反射颜色。
 		 */
-		public set reflectColor(value:Laya.Vector3):void {
+		public set reflectColor(value:Laya.Vector3) {
 			this._setColor(CustomMaterial2.MATERIALREFLECT, value);
 		}
 		
@@ -200,7 +220,7 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 		 * 设置反射率。
 		 * @param value 反射率。
 		 */
-		public set albedoColor(value:Laya.Vector4):void {
+		public set albedoColor(value:Laya.Vector4) {
 			this._setColor(CustomMaterial2.ALBEDO, value);
 		}
 		
@@ -212,7 +232,7 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 		 * 设置反射率。
 		 * @param value 反射率。
 		 */
-		public set albedo(value:Laya.Vector4):void {//兼容
+		public set albedo(value:Laya.Vector4) {//兼容
 			this._setColor(CustomMaterial2.ALBEDO, value);
 		}
 		
@@ -228,7 +248,7 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 		 * 设置漫反射贴图。
 		 * @param value 漫反射贴图。
 		 */
-		public set diffuseTexture(value:Laya.BaseTexture):void {
+		public set diffuseTexture(value:Laya.BaseTexture) {
 			if (value) {
 				this._addShaderDefine(CustomMaterial2.SHADERDEFINE_DIFFUSEMAP);
 			} else {
@@ -249,7 +269,7 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 		 * 设置法线贴图。
 		 * @param value 法线贴图。
 		 */
-		public set normalTexture(value:Laya.BaseTexture):void {
+		public set normalTexture(value:Laya.BaseTexture) {
 			if (value) {
 				this._addShaderDefine(CustomMaterial2.SHADERDEFINE_NORMALMAP);
 			} else {
@@ -270,7 +290,7 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 		 * 设置高光贴图。
 		 * @param value  高光贴图。
 		 */
-		public set specularTexture(value:Laya.BaseTexture):void {
+		public set specularTexture(value:Laya.BaseTexture) {
 			if (value) {
 				this._addShaderDefine(CustomMaterial2.SHADERDEFINE_SPECULARMAP);
 			} else {
@@ -292,7 +312,7 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 		 * 设置放射贴图。
 		 * @param value 放射贴图。
 		 */
-		public set emissiveTexture(value:Laya.BaseTexture):void {
+		public set emissiveTexture(value:Laya.BaseTexture) {
 			if (value) {
 				this._addShaderDefine(CustomMaterial2.SHADERDEFINE_EMISSIVEMAP);
 			} else {
@@ -313,7 +333,7 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 		 * 设置环境贴图。
 		 * @param  value 环境贴图。
 		 */
-		public set ambientTexture(value:Laya.BaseTexture):void {
+		public set ambientTexture(value:Laya.BaseTexture) {
 			if (value) {
 				this._addShaderDefine(CustomMaterial2.SHADERDEFINE_AMBIENTMAP);
 			} else {
@@ -334,7 +354,7 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 		 * 设置反射贴图。
 		 * @param value 反射贴图。
 		 */
-		public set reflectTexture(value:Laya.BaseTexture):void {
+		public set reflectTexture(value:Laya.BaseTexture){
 			if (value) {
 				this._addShaderDefine(CustomMaterial2.SHADERDEFINE_REFLECTMAP);
 			} else {
@@ -355,7 +375,7 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 		 * 设置UV变换。
 		 * @param value UV变换。
 		 */
-		public set transformUV(value:Laya.TransformUV):void {
+		public set transformUV(value:Laya.TransformUV) {
 			this._transformUV = value;
 			this._setMatrix4x4(CustomMaterial2.UVMATRIX, value.matrix);
 			if (value)
@@ -426,7 +446,7 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 			} else {//兼容性代码
 				var textureMap:Object = data[1];
 				var props:Object = jsonData.props;
-				for (var prop:string in props)
+				for (var prop in props)
 					this[prop] = props[prop];
 				CustomMaterial2._parseStandardMaterial(textureMap, this, jsonData);
 				
@@ -443,4 +463,3 @@ class CustomMaterial2 extends Laya.BaseMaterial{
 			(this._transformUV) && (dest["_transformUV"] = this._transformUV.clone());
 		}
 	}
-}
